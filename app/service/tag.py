@@ -20,7 +20,7 @@ class TagService(BaseService):
             for row in companies
         ]
 
-    async def add(self, company_name: str, tags: list[TagCreateInfo]):
+    async def add_to_company(self, company_name: str, tags: list[TagCreateInfo]):
         company = await self._company.find_by_name(company_name, self._lang)
         if not company:
             raise HTTPException(status_code=404, detail="Company not found")
@@ -47,7 +47,7 @@ class TagService(BaseService):
     async def remove(self, company_name, tag_name: str):
         company = await self._company.find_by_name(company_name, self._lang)
         tag = await self._tag.find_by_name(tag_name)
-        await self._tag.delete(company[0].Company.id, tag.id)
+        await self._tag.unlink(company[0].Company.id, tag.id)
         return {
             "company_name": company[0].company_name,
             "tags": [

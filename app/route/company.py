@@ -41,7 +41,7 @@ async def add_company_tag(
     service: TagService = Depends(TagService),
 ) -> dict:
     """회사 태그 정보 추가"""
-    return await service.add(company_name, body)
+    return await service.add_to_company(company_name, body)
 
 
 @router.delete("/companies/{company_name}/tags/{tag_name}")

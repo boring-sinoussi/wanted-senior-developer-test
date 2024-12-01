@@ -26,6 +26,7 @@ class CompanyRepository(BaseRepository):
                     select(CompanyLanguage.company_id)
                     .where(CompanyLanguage.name.like(f"%{text}%"))
                 ),
+                Company.is_active.is_(True),
             )
             .order_by(Company.id)
         )
@@ -50,6 +51,7 @@ class CompanyRepository(BaseRepository):
                     select(CompanyLanguage.company_id)
                     .where(CompanyLanguage.name == company_name)
                 ),
+                Company.is_active.is_(True),
             )
         )
         return result.all()
@@ -74,6 +76,7 @@ class CompanyRepository(BaseRepository):
                     .join(TagLanguage, CompanyTag.tag_id == TagLanguage.tag_id)
                     .where(TagLanguage.name == tag_name)
                 ),
+                Company.is_active.is_(True),
             )
             .order_by(Company.id)
             .options(selectinload(Company.languages))

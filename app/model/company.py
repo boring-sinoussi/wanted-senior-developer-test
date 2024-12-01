@@ -7,6 +7,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     String,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 
@@ -30,6 +31,7 @@ class CompanyLanguage(BaseModel):
     """언어별 회사 정보"""
 
     __tablename__ = "tb_company_lang"
+    __table_args__ = (UniqueConstraint("name", "language"),)
 
     id = Column(BigInteger, primary_key=True)
     company_id = Column(
@@ -58,6 +60,7 @@ class TagLanguage(BaseModel):
     """언어별 태그 정보"""
 
     __tablename__ = "tb_tag_lang"
+    __table_args__ = (UniqueConstraint("name", "language"),)
 
     id = Column(BigInteger, primary_key=True)
     tag_id = Column(
@@ -74,6 +77,7 @@ class CompanyTag(BaseModel):
     """회사 & 태그 매핑 정보"""
 
     __tablename__ = "tb_company_tag"
+    __table_args__ = (UniqueConstraint("company_id", "tag_id"),)
 
     id = Column(BigInteger, primary_key=True)
     company_id = Column(

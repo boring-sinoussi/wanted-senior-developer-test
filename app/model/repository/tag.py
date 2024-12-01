@@ -46,7 +46,7 @@ class TagRepository(BaseRepository):
         )
         return result.all()
 
-    async def exists(self, tag_id, company_id):
+    async def exists(self, tag_id: int, company_id: int):
         result = await self._session.execute(
             select(literal(1))
             .where(
@@ -67,11 +67,11 @@ class TagRepository(BaseRepository):
         await self._session.commit()
         return tag
 
-    async def link(self, company_id: int, tag_id):
+    async def link(self, company_id: int, tag_id: int):
         self._session.add(CompanyTag(company_id=company_id, tag_id=tag_id))
         await self._session.commit()
 
-    async def delete(self, company_id: int, tag_id: int):
+    async def unlink(self, company_id: int, tag_id: int):
         await self._session.execute(
             delete(CompanyTag)
             .where(
